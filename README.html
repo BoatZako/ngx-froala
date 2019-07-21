@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+        <title>ngx-froala</title>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+        
+        <style>
+.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+</style>
+        <style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        
+        
+    </head>
+    <body>
+        <h1 id="ngx-froala">ngx-froala</h1>
+<p><a href="https://david-dm.org/BoatZako/ngx-froala"><img src="https://david-dm.org/BoatZako/ngx-froala/status.svg" alt="dependencies Status"></a>
+<a href="https://david-dm.org/BoatZako/ngx-froala?type=dev"><img src="https://david-dm.org/BoatZako/ngx-froala/dev-status.svg" alt="devDependencies Status"></a></p>
+<p>Smooth scroll for Angular2+. <a href="https://angular6-smooth-scroll-demo.stackblitz.io">Demo</a></p>
+<h2 id="Getting-Started">Getting Started</h2>
+<p>You can install ngx-froala by using npm.</p>
+<pre><code><div>npm install ngx-froala froala-editor --save
+</div></code></pre>
+<p>Once installed you need to import our main module:</p>
+<p>This module provides two components.</p>
+<pre><code class="language-js"><div><span class="hljs-keyword">import</span> { NgModule } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core'</span>;
+<span class="hljs-keyword">import</span> { BrowserModule } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/platform-browser'</span>;
+<span class="hljs-keyword">import</span> { AppComponent } <span class="hljs-keyword">from</span> <span class="hljs-string">'./app.component'</span>;
+
+<span class="hljs-keyword">import</span> { NgxFroalaModule } <span class="hljs-keyword">from</span> <span class="hljs-string">'ngx-froala'</span>; <span class="hljs-comment">// &lt;-- add</span>
+
+@NgModule({
+  <span class="hljs-attr">imports</span>: [
+    BrowserModule, 
+    NgxFroalaModule  <span class="hljs-comment">// &lt;-- add</span>
+  ],
+  <span class="hljs-attr">declarations</span>: [ 
+    AppComponent,
+  ],
+  <span class="hljs-attr">bootstrap</span>: [ AppComponent ]
+})
+<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AppModule</span> </span>{ }
+
+</div></code></pre>
+<h2 id="Usage---Service">Usage - Service</h2>
+<p>import service to component</p>
+<pre><code class="language-js"><div><span class="hljs-keyword">import</span> { Component, OnInit } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core'</span>;
+<span class="hljs-keyword">import</span> { SimpleSmoothScrollService } <span class="hljs-keyword">from</span> <span class="hljs-string">'ngx-froala'</span>;
+<span class="hljs-keyword">import</span> { SimpleSmoothScrollOption } <span class="hljs-keyword">from</span> <span class="hljs-string">'ngx-froala'</span>;
+
+@Component({
+  ...
+})
+<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AppComponent</span> <span class="hljs-title">implements</span> <span class="hljs-title">OnInit</span></span>{
+
+  <span class="hljs-keyword">constructor</span>(private smooth: SimpleSmoothScrollService) { }
+
+  ngOnInit() {
+    <span class="hljs-keyword">this</span>.smooth.smoothScrollToAnchor();
+  }
+  
+  goTop(){
+    <span class="hljs-keyword">let</span> opt : ISimpleSmoothScrollOption = { <span class="hljs-attr">duration</span>: <span class="hljs-number">100</span>, <span class="hljs-attr">easing</span>: <span class="hljs-string">'linear'</span> };
+    <span class="hljs-keyword">this</span>.smooth.smoothScrollToTop(opt);
+  }
+}
+</div></code></pre>
+<h3 id="Methods">Methods</h3>
+<h4 id="smoothScrollToTop">smoothScrollToTop</h4>
+<p><strong>smoothScrollToTop(</strong> <em>[SimpleSmoothScrollOption]</em> <strong>)</strong></p>
+<p>Smooth scroll to top page.</p>
+<h4 id="smoothScrollToAnchor">smoothScrollToAnchor</h4>
+<p><strong>smoothScrollToAnchor(</strong> <em>[SimpleSmoothScrollOption]</em> <strong>)</strong></p>
+<p>Smooth scroll to the anchor.</p>
+<h2 id="ISimpleSmoothScrollOption">ISimpleSmoothScrollOption</h2>
+<p>For set duration and easing function</p>
+<pre><code class="language-js"><div><span class="hljs-keyword">let</span> option1: ISimpleSmoothScrollOption = { <span class="hljs-attr">duration</span>: <span class="hljs-number">500</span> };
+<span class="hljs-keyword">let</span> option2: ISimpleSmoothScrollOption = { <span class="hljs-attr">duration</span>: <span class="hljs-number">1000</span>, <span class="hljs-attr">easing</span>: <span class="hljs-string">'easeOutQuart'</span>};
+<span class="hljs-keyword">let</span> option3: ISimpleSmoothScrollOption = { <span class="hljs-attr">easing</span>: <span class="hljs-string">'linear'</span>};
+
+<span class="hljs-comment">// this.smooth.smoothScrollToTop(option1);</span>
+<span class="hljs-comment">// this.smooth.smoothScrollToAnchor(option2);</span>
+</div></code></pre>
+<h2 id="Usage---Directive">Usage - Directive</h2>
+<p><strong>SimpleSmoothScroll</strong></p>
+<p>Scroll the window to the specified element ID or hash when clicking the element.</p>
+<pre><code class="language-js"><div><span class="hljs-keyword">import</span> { Component, OnInit } <span class="hljs-keyword">from</span> <span class="hljs-string">'@angular/core'</span>;
+
+@Component({  
+  ...
+  template: <span class="hljs-string">`
+    &lt;div id="div1"&gt;
+      &lt;h1&gt;This is DIV1&lt;/h1&gt;
+      &lt;a href="#div2" SimpleSmoothScroll [showHash]="true" [offset]="-50"&gt;Go to DIV2&lt;/a&gt;
+    &lt;/div&gt;
+    &lt;div id="div2" SimpleSmoothScroll [scrollTo]="'div1'" [duration]="500"&gt;
+      &lt;h1&gt;THIS IS DIV2. click to go to DIV1&lt;/h1&gt;
+    &lt;/div&gt;
+    &lt;div class="div3" (click)="goTop()"&gt;
+      &lt;h2&gt;Go to Top&lt;/h2&gt;
+    &lt;/div&gt;
+  `</span>,
+  ...
+})
+<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AppComponent</span></span>{
+	...
+}
+
+</div></code></pre>
+<h3 id="Options">Options</h3>
+<h4 id="scrollTo">[scrollTo]</h4>
+<p>type: <code>string</code>
+default: <code>null</code></p>
+<p>ID of the element in document.</p>
+<h4 id="duration">[duration]</h4>
+<p>type: <code>number</code>
+default: <code>800</code></p>
+<p>The duration of the smooth scroll, in milliseconds.</p>
+<h4 id="easing">[easing]</h4>
+<p>type: <code>enum</code>
+default: <code>easeInOutQuad</code></p>
+<p>The easing function to be used for this scroll.</p>
+<p><strong>Easing functions</strong> <em>from - <a href="https://gist.github.com/gre/1650294">https://gist.github.com/gre/1650294</a></em></p>
+<ul>
+<li>'linear'</li>
+<li>'easeInQuad'</li>
+<li>'easeOutQuad'</li>
+<li>'easeInOutQuad'</li>
+<li>'easeInCubic'</li>
+<li>'easeOutCubic'</li>
+<li>'easeInOutCubic'</li>
+<li>'easeInQuart'</li>
+<li>'easeOutQuart'</li>
+<li>'easeInOutQuart'</li>
+<li>'easeInQuint'</li>
+<li>'easeOutQuint'</li>
+<li>'easeInOutQuint'</li>
+</ul>
+<h4 id="offset">[offset]</h4>
+<p>type: <code>number</code>
+default: 0</p>
+<p>scroll additional px ( like padding )</p>
+<h4 id="showHash">[showHash]</h4>
+<p>type: <code>boolean</code>
+default: <code>false</code></p>
+<p>Set <code>true</code> for show hash on URL</p>
+<h2 id="Authors">Authors</h2>
+<ul>
+<li><a href="https://github.com/BoatZako/">BoatZako</a> (<a href="mailto:boat_zako@hotmail.com">boat_zako@hotmail.com</a>)</li>
+</ul>
+<h2 id="License">License</h2>
+<p>This project is licensed under the MIT License - see the <a href="LICENSE">LICENSE</a> file for details</p>
+
+    </body>
+    </html>
