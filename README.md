@@ -21,14 +21,14 @@ Open `angular.json` file
 ```json
 "styles": [
   "node_modules/froala-editor/css/froala_editor.pkgd.css",
-  ...
+  "..."
 ],
 ```
 - insert a new entry into the `scripts` array
 ```json
 "scripts": [
   "node_modules/froala-editor/js/froala_editor.pkgd.min.js",
-  ...
+  "..."
 ],
 ```
 
