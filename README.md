@@ -3,8 +3,8 @@
 [![dependencies Status](https://david-dm.org/BoatZako/ngx-froala/status.svg)](https://david-dm.org/BoatZako/ngx-froala)
 [![devDependencies Status](https://david-dm.org/BoatZako/ngx-froala/dev-status.svg)](https://david-dm.org/BoatZako/ngx-froala?type=dev)
 
-
-Angular 6+ bindings for Froala WYSIWYG Editor. [Demo](https://ngx-froala-demo.stackblitz.io)
+Angular 6+ bindings for [Froala WYSIWYG Editor](https://www.froala.com/wysiwyg-editor). 
+See [Demo](https://ngx-froala-demo.stackblitz.io)
 
 ## Getting Started
 
@@ -59,11 +59,11 @@ export class AppModule { }
 
 Then in HTML
 
-### Froala editor
 ```html
 <ngx-froala-editor [options]="options" [(ngModel)]="text"></ngx-froala-editor>
 ```
 
+### Froala editor component
 #### Input
 
 [*options*]
@@ -91,6 +91,76 @@ Then in HTML
 [*text*]
   - **type**: `string`
   - **require**: `true`
+
+## Advance
+For multiple editor in same page. You can use NgxFroalaDirective and NgxFroalaService to create the editor.
+
+HTML
+```html
+<div froalaEditor [model]="text1" (modelChange)="text1 = $event"></div>
+<div froalaEditor [model]="text2" (modelChange)="text2 = $event"></div>
+```
+
+Typescript
+```js
+import { Component, OnInit, AfterViewInit, ViewChildren, QueryList } from '@angular/core';
+import { FroalaOptions, NgxFroalaEditorDirective, NgxFroalaEditorService } from 'ngx-froala';
+
+@Component({
+  selector: 'app-home',
+  templateUrl: './home.component.html'
+})
+export class HomeComponent implements OnInit, AfterViewInit {
+
+  @ViewChildren(NgxFroalaEditorDirective) froalaEl !: QueryList<NgxFroalaEditorDirective>
+
+  options: FroalaOptions;
+
+  text1: string;
+  text2: string;
+
+  constructor(
+    private froalaService: NgxFroalaEditorService,
+  ) { }
+
+  ngOnInit() {
+    this.text1 = `<h1>Hello</h1>`
+    this.text2 = `<h1>World</h1>`
+    this.options = {
+      videoUpload: false,
+      quickInsertEnabled: false,
+    }
+  }
+
+  ngAfterViewInit() {
+    this.froalaService.init(this.froalaEl)
+  }
+
+}
+```
+
+### Froala editor directive
+#### Input
+
+[*model*]
+  - **type**: `string`
+  - **require**: `false`
+  - **description**: option for froala editor. see [document](https://www.froala.com/wysiwyg-editor/docs/options)
+
+#### Output
+
+[*modelChange*]
+  - **return**: `string`
+  - **description**: trigger when text in editor is changed
+
+### Froala editor service
+
+#### Methods
+init
+  - **parameter**
+    - editor element : `QueryList<NgxFroalaEditorDirective>`
+    - options : `FroalaOptions`
+  - **return** : `void`
 
 ## Authors
 
