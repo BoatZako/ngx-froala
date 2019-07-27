@@ -51,7 +51,14 @@ export class NgxFroalaEditorService {
         }
       }
 
-      this.instance = new FroalaEditor(query, options)
+      this.instance = new FroalaEditor(query, options, function () {
+        for (let i = 0; i < that.editor.length; i++) {
+          if (that.editor[i].el.nativeElement == this.$box[0]) {
+            that.editor[i].show()
+            break;
+          }
+        }
+      })
     }
   }
 
@@ -81,5 +88,8 @@ export class NgxFroalaEditorService {
     }
   }
 
-
+  remake(editors: QueryList<NgxFroalaEditorDirective>, options: FroalaOptions = {}): void {
+    this.editor = []
+    this.init(editors, options);
+  }
 }

@@ -157,6 +157,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
 #### Methods
 init
+  - **description** : use when first create froala editors
+  - **parameter**
+    - editor element : `QueryList<NgxFroalaEditorDirective>`
+    - options : `FroalaOptions`
+  - **return** : `void`
+
+remake
+  - **description** : use when you want recreate the froala editors
   - **parameter**
     - editor element : `QueryList<NgxFroalaEditorDirective>`
     - options : `FroalaOptions`
