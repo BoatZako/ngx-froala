@@ -83,6 +83,9 @@ export class NgxFroalaEditorService {
 
   private _clearInstance() {
     if (this.instance) {
+      if(!Array.isArray(this.instance)) {
+        this.instance = [this.instance]
+      }
       this.instance.forEach((e: any) => e.destroy())
       this.instance = undefined
     }
