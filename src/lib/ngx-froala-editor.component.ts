@@ -18,7 +18,7 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
 })
 export class NgxFroalaEditorComponent implements OnInit, OnChanges, ControlValueAccessor {
 
-  @ViewChild('froala') private _froala: ElementRef;
+  @ViewChild('froala', { static: true }) private _froala: ElementRef;
   @Input() options: FroalaOptions;
   @Output() oncreated = new EventEmitter<any>();
   @Output() onchanged = new EventEmitter<any>();

@@ -1,6 +1,6 @@
 {
   "name": "ngx-froala",
-  "version": "2.1.1",
+  "version": "3.0.0",
   "license": "MIT",
   "author": {
     "name": "BoatZako",
@@ -11,7 +11,7 @@
     "url": "git+https://github.com/BoatZako/ngx-froala.git"
   },
   "peerDependencies": {
-    "@angular/common": "^7.0.0",
-    "@angular/core": "^7.0.0"
+    "@angular/common": "^9.0.0",
+    "@angular/core": "^9.0.0"
   }
 }
