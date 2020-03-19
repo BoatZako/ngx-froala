@@ -3,7 +3,7 @@
 [![dependencies Status](https://david-dm.org/BoatZako/ngx-froala/status.svg)](https://david-dm.org/BoatZako/ngx-froala)
 [![devDependencies Status](https://david-dm.org/BoatZako/ngx-froala/dev-status.svg)](https://david-dm.org/BoatZako/ngx-froala?type=dev)
 
-Angular 6+ bindings for [Froala WYSIWYG Editor](https://www.froala.com/wysiwyg-editor). 
+Angular 9+ bindings for [Froala WYSIWYG Editor](https://www.froala.com/wysiwyg-editor). 
 See [Demo](https://ngx-froala-demo.stackblitz.io)
 
 ## Getting Started
