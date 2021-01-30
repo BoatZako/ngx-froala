@@ -1,35 +1,83 @@
-import { Directive, ElementRef, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Directive, ElementRef, Input, OnInit, AfterViewInit, forwardRef, Output, EventEmitter } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { FroalaOptions } from './ngx-froala.interface';
+
+declare var FroalaEditor: any;
+
+const noop: any = () => { }
 
 @Directive({
-  selector: '[froalaEditor]'
+  selector: '[froalaEditor]',
+  providers: [{
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => NgxFroalaEditorDirective),
+    multi: true
+  }]
 })
-export class NgxFroalaEditorDirective implements OnInit {
+export class NgxFroalaEditorDirective implements OnInit, AfterViewInit, ControlValueAccessor {
 
-  @Input('model') model: string;
-  @Output('modelChange') change = new EventEmitter<string>()
+  @Input() options: FroalaOptions;
+  @Output() oncreated = new EventEmitter<void>();
 
-  private _display: any;
+  update$ = new Subject<void>()
+  change$ = new Subject<void>()
+
+  private _editor: any;
+  private _value: string;
 
   constructor(
     public el: ElementRef,
   ) { }
 
-  ngOnInit() {
-    this.hide();
-    this.el.nativeElement.innerHTML = this.model || ""
+  ngOnInit(): void {
+    this.update$.subscribe(() => {
+      this._editor?.html?.set(this._value)
+    })
+    this.change$.subscribe((v) => {
+      this.value = this._editor.html.get()
+    })
+
+    let options = {
+      events: {
+        initialized: () => {
+          this.update$.next()
+          this.oncreated.emit()
+        },
+        contentChanged: () => {
+          this.change$.next()
+        }
+      }
+    }
+    Object.assign(this.options, options)
   }
 
-  show() {
-    this.el.nativeElement.style.display = this._display
+  ngAfterViewInit() {
+    this._editor = new FroalaEditor(this.el.nativeElement, this.options);
   }
 
-  hide() {
-    this._display = this.el.nativeElement.style.display
-    this.el.nativeElement.style.display = 'none'
+  get value(): any { return this._value; };
+  set value(v: any) {
+    if (v !== this._value) {
+      this._value = v;
+      this.onChange(v);
+    }
   }
 
-  onModelChange(text: string) {
-    this.change.emit(text);
+  onChange = noop;
+  onTouched = noop;
+  writeValue(v: string): void {
+    this._value = v;
+    this.update$.next()
+  }
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
   }
 
+  ngOnDestroy() {
+    this._editor?.destroy();
+  }
 }

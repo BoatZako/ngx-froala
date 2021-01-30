@@ -60,10 +60,10 @@ export class AppModule { }
 Then in HTML
 
 ```html
-<ngx-froala-editor [options]="options" [(ngModel)]="text"></ngx-froala-editor>
+<div froalaEditor [options]="options" [(ngModel)]="text"></div>
 ```
 
-### Froala editor component
+### Froala editor directive
 #### Input
 
 [*options*]
@@ -77,10 +77,6 @@ Then in HTML
   - **return**: Froala instance
   - **description**: trigger when created the froala editor
 
-[*onchanged*]
-  - **return**: New Froala instance
-  - **description**: trigger when recreated the froala editor
-
 ### Froala view
 ```html
 <ngx-froala-view [text]="text"></ngx-froala-view>
@@ -91,84 +87,6 @@ Then in HTML
 [*text*]
   - **type**: `string`
   - **require**: `true`
-
-## Advance
-For multiple editor in same page. You can use NgxFroalaDirective and NgxFroalaService to create the editor.
-
-HTML
-```html
-<div froalaEditor [model]="text1" (modelChange)="text1 = $event"></div>
-<div froalaEditor [model]="text2" (modelChange)="text2 = $event"></div>
-```
-
-Typescript
-```js
-import { Component, OnInit, AfterViewInit, ViewChildren, QueryList } from '@angular/core';
-import { FroalaOptions, NgxFroalaEditorDirective, NgxFroalaEditorService } from 'ngx-froala';
-
-@Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html'
-})
-export class HomeComponent implements OnInit, AfterViewInit {
-
-  @ViewChildren(NgxFroalaEditorDirective) froalaEl !: QueryList<NgxFroalaEditorDirective>
-
-  options: FroalaOptions;
-
-  text1: string;
-  text2: string;
-
-  constructor(
-    private froalaService: NgxFroalaEditorService,
-  ) { }
-
-  ngOnInit() {
-    this.text1 = `<h1>Hello</h1>`
-    this.text2 = `<h1>World</h1>`
-    this.options = {
-      videoUpload: false,
-      quickInsertEnabled: false,
-    }
-  }
-
-  ngAfterViewInit() {
-    this.froalaService.init(this.froalaEl)
-  }
-
-}
-```
-
-### Froala editor directive
-#### Input
-
-[*model*]
-  - **type**: `string`
-  - **require**: `false`
-  - **description**: option for froala editor. see [document](https://www.froala.com/wysiwyg-editor/docs/options)
-
-#### Output
-
-[*modelChange*]
-  - **return**: `string`
-  - **description**: trigger when text in editor is changed
-
-### Froala editor service
-
-#### Methods
-init
-  - **description** : use when first create froala editors
-  - **parameter**
-    - editor element : `QueryList<NgxFroalaEditorDirective>`
-    - options : `FroalaOptions`
-  - **return** : `void`
-
-remake
-  - **description** : use when you want recreate the froala editors
-  - **parameter**
-    - editor element : `QueryList<NgxFroalaEditorDirective>`
-    - options : `FroalaOptions`
-  - **return** : `void`
 
 ## Authors
 
